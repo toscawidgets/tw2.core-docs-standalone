@@ -1,5 +1,6 @@
 import tw2.core
 import tw2.forms
+import tw2.dynforms
 import tw2.sqla
 import model
 
@@ -17,12 +18,11 @@ class Movie(tw2.sqla.DbFormPage):
     redirect = '/'
     resources = [tw2.core.CSSLink(filename='myapp.css')]
     title = 'Movie'
-    class child(tw2.forms.TableForm):
+    class child(tw2.dynforms.CustomisedTableForm):
         title = tw2.forms.TextField(validator=tw2.core.Required)
         director = tw2.forms.TextField()
         genre = tw2.sqla.DbCheckBoxList(entity=model.Genre)
-        class cast(tw2.forms.GridLayout):
-            extra_reps = 5
+        class cast(tw2.dynforms.GrowingGridLayout):
             character = tw2.forms.TextField()
             actor = tw2.forms.TextField()
 
