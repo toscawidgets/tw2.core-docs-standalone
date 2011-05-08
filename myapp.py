@@ -8,6 +8,7 @@ class Index(tw2.core.Page):
         self.req = str(req)
 
 class Movie(tw2.forms.FormPage):
+    resources = [tw2.core.CSSLink(filename='myapp.css')]
     title = 'Movie'
     class child(tw2.forms.TableForm):
         title = tw2.forms.TextField(validator=tw2.core.Required)
