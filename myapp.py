@@ -3,14 +3,18 @@ import tw2.forms
 import tw2.sqla
 import model
 
-class Index(tw2.core.Page):
-    template = 'genshi:./index.html'
+class Index(tw2.sqla.DbListPage):
+    entity = model.Movie
+    title = 'Movies'
+    newlink = tw2.forms.LinkField(link='movie', text='New', value=1)
+    class child(tw2.forms.GridLayout):
+        title = tw2.forms.LabelField()
+        id = tw2.forms.LinkField(link='movie?id=$', text='Edit', label=None)
 
-    def fetch_data(self, req):
-        self.req = str(req)
 
 class Movie(tw2.sqla.DbFormPage):
     entity = model.Movie
+    redirect = '/'
     resources = [tw2.core.CSSLink(filename='myapp.css')]
     title = 'Movie'
     class child(tw2.forms.TableForm):
