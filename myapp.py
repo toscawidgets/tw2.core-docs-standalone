@@ -19,6 +19,7 @@ class Movie(tw2.sqla.DbFormPage):
     resources = [tw2.core.CSSLink(filename='myapp.css')]
     title = 'Movie'
     class child(tw2.dynforms.CustomisedTableForm):
+        id = tw2.forms.HiddenField()
         title = tw2.forms.TextField(validator=tw2.core.Required)
         director = tw2.forms.TextField()
         genre = tw2.sqla.DbCheckBoxList(entity=model.Genre)
