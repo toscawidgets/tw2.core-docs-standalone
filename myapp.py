@@ -2,6 +2,7 @@ import tw2.core
 import tw2.forms
 import tw2.dynforms
 import tw2.sqla
+import tw2.jqplugins.jqgrid
 import model
 
 class Index(tw2.sqla.DbListPage):
@@ -27,6 +28,32 @@ class Movie(tw2.sqla.DbFormPage):
             character = tw2.forms.TextField()
             actor = tw2.forms.TextField()
 
+class GridWidget(tw2.jqplugins.jqgrid.SQLAjqGridWidget):
+    entity = model.Movie
+    excluded_columns = ['id']
+    prmFilter = {'stringResult': True, 'searchOnEnter': False}
+    pager_options = { "search" : True, "refresh" : True, "add" : False, }
+    options = {
+        'url': '/db_jqgrid/',
+        'rowNum':15,
+        'rowList':[15,30,50],
+        'viewrecords':True,
+        'imgpath': 'scripts/jqGrid/themes/green/images',
+        'width': 900,
+        'height': 'auto',
+    }
+
+    def prepare(self):
+        # This controller registration does not generally have to occur inside
+        # 'prepare', but we place it here so we're sure the middleware has
+        # been initialized by tw2.core.dev_server before we make demands of it.
+        mw = tw2.core.core.request_local()['middleware']
+        mw.controllers.register(self.__class__, 'db_jqgrid')
+        super(GridWidget, self).prepare()
+
+class Grid(tw2.core.Page):
+    title = 'jQuery jqGrid'
+    child = GridWidget
 
 tw2.core.dev_server(repoze_tm=True)
 
