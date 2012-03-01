@@ -19,3 +19,7 @@ class Cast(elixir.Entity):
     actor = elixir.Field(elixir.String)
 
 elixir.setup_all()
+try:
+    elixir.create_all()
+except:
+    pass
